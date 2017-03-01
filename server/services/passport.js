@@ -15,17 +15,22 @@ passport.use(new Auth0Strategy(config.AUTH_CONFIG, function(accessToken, refresh
 
     user = user[0];
 
+    // Is there an error?
     if (err) {
       return done(err);
     }
+
+    // Does the user not exist?
     else if (!user) {
+      // Is there a name or do I need a placeholder name?
       if (!profile.name.givenName)
         profile.name = {
           givenName: profile.displayName,
           familyName: null
         };
 
-      db.user.create([profile.name.givenName, profile.name.familyName, profile.emails[0].value], function(err, user) {
+      // Create user.
+      db.user.insert([profile.name.givenName, profile.name.familyName, profile.emails[0].value], function(err, user) {
         if (err) {
           return done(err);
         }
@@ -33,11 +38,15 @@ passport.use(new Auth0Strategy(config.AUTH_CONFIG, function(accessToken, refresh
         return done(null, user[0]);
       })
     }
+
+    // Can and does the username need to be updated?
     else if (!user.name_last && profile.name.familyName) {
-      console.log('updating user', user);
+
+      // Change name
       user.name_first = profile.name.givenName;
       user.name_last = profile.name.familyName;
 
+      // Update user
       db.users.save(user, function(err, user) {
         if (err) {
           console.log('User update error on login', err);
@@ -45,12 +54,13 @@ passport.use(new Auth0Strategy(config.AUTH_CONFIG, function(accessToken, refresh
           return done(err);
         }
 
-        done(null, user)
+        return done(null, user)
       });
     }
-    else {
-      return done(null, user);
-    }
+
+    // User exists and no changes need to be made.
+    return done(null, user);
+
   });
 }));
 
