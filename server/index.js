@@ -9,10 +9,19 @@ var config = require('./config');
 
 // EXPRESS //
 var app = module.exports = express();
-app.use(express.static(__dirname + './../public'));
+
+app.use(express.static(__dirname + './../dist'));
 app.use(bodyParser.json());
 
-// MASSIVE //
+app.use(session({
+	secret: config.SESSION_SECRET,
+	saveUninitialized: false,
+	resave: false
+}));
+
+
+
+// MASSIVE AND DB SETUP //
 var massiveUri = config.MASSIVE_URI;
 var massiveServer = massive.connectSync({
 	connectionString: massiveUri
@@ -20,24 +29,18 @@ var massiveServer = massive.connectSync({
 app.set('db', massiveServer);
 var db = app.get('db');
 
-// DB SETUP //
 var dbSetup = require('./services/dbSetup');
 dbSetup.run();
 
+
+
 // SESSION AND PASSPORT //
 var passport = require('./services/passport');
-app.use(session({
-	secret: config.SESSION_SECRET,
-	saveUninitialized: false,
-	resave: false
-}));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
 // PASSPORT ENDPOINTS //
 app.get('/auth', passport.authenticate('auth0'));
-
 app.get('/auth/callback', passport.authenticate('auth0', {
   successRedirect: '/#!/profile',
   failureRedirect: '/#!/'
@@ -55,12 +58,16 @@ var isAuthed = function(req, res, next) {
 	return next();
 };
 
+
+
 // CONTROLLERS //
 var UserCtrl = require('./controllers/UserCtrl');
 
 // USER ENDPOINTS //
 app.get('/api/me', UserCtrl.me);
 app.put('/api/user/current', isAuthed, UserCtrl.update);
+
+
 
 // CONNECTIONS //
 var port = config.PORT;

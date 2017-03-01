@@ -14,7 +14,7 @@ var log = function(input) {
 // INITIALIZE FUNCTION //
 module.exports = {
 	run: function() {
-		console.log('Initializing database');
+		log('Initializing database');
 
 		db.initialize.tables_initialize(function(err, table) {
 			if (err) return log('Some tables failed to create');

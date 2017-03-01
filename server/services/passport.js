@@ -10,8 +10,11 @@ var db = app.get('db');
 var config = require('./../config');
 
 // RUN WHEN LOGGING IN //
-passport.use(new Auth0Strategy(config.authConfig, function(accessToken, refreshToken, extraParams, profile, done) {
-  db.user.search_email([profile.displayName], function(err, user) {
+passport.use(new Auth0Strategy(config.AUTH_CONFIG, function(accessToken, refreshToken, extraParams, profile, done) {
+  db.user.search_email([profile.emails[0].value], function(err, user) {
+
+    console.log(profile);
+
     if (err) {
       return done(err);
     }

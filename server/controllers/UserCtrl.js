@@ -18,6 +18,7 @@ module.exports = {
 			.json(req.user);
 	},
 
+	// UPDATE CURRENT USER //
 	update: function(req, res, next) {
 		console.log('Starting update');
 
@@ -31,6 +32,7 @@ module.exports = {
 					.send(err);
 			}
 
+			delete user.password;
 			req.user = user;
 
 			res.status(200)
