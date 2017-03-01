@@ -1,9 +1,8 @@
 # SANE_Seed_Auth0
 This is a fully functional basic SANE stack app seed. It has passport Auth0, gulp, and sass capabilities.
 
-* (Tested to work with google and facebook)
-* (This system will link all accounts with matching emails)
-* (If you dont want gulp and sass, you will need to update the index.html and index.js accordingly)
+* Tested to work with google and facebook
+* This system will link all accounts with matching emails
 
 ## To use this seed
 

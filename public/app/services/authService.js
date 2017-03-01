@@ -1,17 +1,6 @@
 angular.module("app")
 	.service("authService", function($http) {
 
-		this.login = function(user) {
-			return $http({
-					method: 'post',
-					url: '/api/login',
-					data: user
-				})
-				.then(function(response) {
-					return response;
-				});
-		};
-
 		this.logout = function() {
 			return $http({
 					method: 'get',
@@ -26,17 +15,6 @@ angular.module("app")
 			return $http({
 					method: 'GET',
 					url: '/api/me'
-				})
-				.then(function(response) {
-					return response;
-				});
-		};
-
-		this.registerUser = function(user) {
-			return $http({
-					method: 'POST',
-					url: '/api/register',
-					data: user
 				})
 				.then(function(response) {
 					return response;

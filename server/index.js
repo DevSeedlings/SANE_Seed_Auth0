@@ -61,11 +61,11 @@ var isAuthed = function(req, res, next) {
 
 
 // CONTROLLERS //
-var UserCtrl = require('./controllers/UserCtrl');
+var userCtrl = require('./controllers/userCtrl');
 
 // USER ENDPOINTS //
-app.get('/api/me', UserCtrl.me);
-app.put('/api/user/current', isAuthed, UserCtrl.update);
+app.get('/api/me', userCtrl.me);
+app.put('/api/user/current', isAuthed, userCtrl.updateCurrent);
 
 
 

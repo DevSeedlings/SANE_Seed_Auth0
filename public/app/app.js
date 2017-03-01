@@ -10,11 +10,6 @@ var app = angular.module("app", ['ui.router'])
 			templateUrl: "./app/routes/home/homeTmpl.html",
 			controller: 'homeCtrl'
 		})
-		.state('login', {
-			url: '/login',
-			templateUrl: './app/routes/login/loginTmpl.html',
-			controller: 'loginCtrl'
-		})
 		.state('profile', {
 			url: '/profile',
 			templateUrl: './app/routes/profile/profileTmpl.html',
@@ -23,12 +18,14 @@ var app = angular.module("app", ['ui.router'])
 				user: function(authService, $state) {
 					return authService.getCurrentUser()
 						.then(function(response) {
+							console.log('response.data: ', response.data);
+							
 							if (!response.data)
-								$state.go('login');
+								$state.go('home');
 							return response.data;
 						})
 						.catch(function(err) {
-							$state.go('login');
+							$state.go('home');
 						});
 				}
 			}

@@ -19,11 +19,10 @@ module.exports = {
 	},
 
 	// UPDATE CURRENT USER //
-	update: function(req, res, next) {
-		console.log('Starting update');
-
+	updateCurrent: function(req, res, next) {
 		var updateUser = req.body;
 		updateUser.id = req.user.id;
+
 		db.users.save(updateUser, function(err, user) {
 			if (err) {
 				console.log('User update error', err);
@@ -32,11 +31,11 @@ module.exports = {
 					.send(err);
 			}
 
-			delete user.password;
-			req.user = user;
+			console.log('user: ', user);
+			req.session.passport.user = user;
 
 			res.status(200)
-				.json(user);
+				.send(user);
 		});
 	}
 };
