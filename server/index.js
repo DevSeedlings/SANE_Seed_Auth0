@@ -64,8 +64,8 @@ var isAuthed = function(req, res, next) {
 var userCtrl = require('./controllers/userCtrl');
 
 // USER ENDPOINTS //
-app.get('/api/me', userCtrl.me);
-app.put('/api/user/current', isAuthed, userCtrl.updateCurrent);
+app.get('/api/me', isAuthed, userCtrl.me);
+app.put('/api/user/current', isAuthed, isAuthed, userCtrl.updateCurrent);
 
 
 

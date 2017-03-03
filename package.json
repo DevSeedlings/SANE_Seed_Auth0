@@ -20,7 +20,7 @@
     "gulp-nodemon": "^2.2.1",
     "gulp-sass": "^2.3.2"
   },
-  "description": "This is a fully functional basic SANE stack app seed. It has passport (with Auth0), gulp, and sass capabilities (gulp and sass not required for use).",
+  "description": "This is a fully functional basic SANE stack app seed. It has passport (with Auth0), gulp, and sass capabilities.",
   "main": "server/index.js",
   "repository": {
     "type": "git",

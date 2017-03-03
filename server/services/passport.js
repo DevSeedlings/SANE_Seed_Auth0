@@ -11,7 +11,7 @@ var config = require('./../config');
 
 // RUN WHEN LOGGING IN //
 passport.use(new Auth0Strategy(config.AUTH_CONFIG, function(accessToken, refreshToken, extraParams, profile, done) {
-  db.user.search_email([profile.emails[0].value], function(err, user) {
+  db.user.read_email([profile.emails[0].value], function(err, user) {
 
     user = user[0];
 
@@ -54,7 +54,7 @@ passport.use(new Auth0Strategy(config.AUTH_CONFIG, function(accessToken, refresh
           return done(err);
         }
 
-        return done(null, user)
+        return done(null, user);
       });
     }
 
