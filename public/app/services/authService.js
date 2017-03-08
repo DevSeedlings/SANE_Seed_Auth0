@@ -1,12 +1,21 @@
+// INITILIZE SERVICE
+// ============================================================
 angular.module("app")
-	.service("authService", function($http) {
+	.service("authService", function($http, $rootScope) {
 
+    // VARIABLES
+    // ============================================================
+
+
+    // FUNCTIONS
+	  // ============================================================
 		this.logout = function() {
 			return $http({
 					method: 'get',
 					url: '/api/logout'
 				})
 				.then(function(response) {
+					$rootScope.$emit('user', null);
 					return response;
 				});
 		};
@@ -17,6 +26,11 @@ angular.module("app")
 					url: '/api/me'
 				})
 				.then(function(response) {
+					if (response.data) {
+						$rootScope.$emit('user', response.data);
+					} else {
+						$rootScope.$emit('user', null);
+					}
 					return response;
 				});
 		};
@@ -31,4 +45,5 @@ angular.module("app")
 					return response;
 				});
 		};
+
 	});

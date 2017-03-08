@@ -22,6 +22,7 @@ passport.use(new Auth0Strategy(config.AUTH_CONFIG, function(accessToken, refresh
 
     // Does the user not exist?
     else if (!user) {
+
       // Is there a name or do I need a placeholder name?
       if (!profile.name.givenName)
         profile.name = {
@@ -57,10 +58,11 @@ passport.use(new Auth0Strategy(config.AUTH_CONFIG, function(accessToken, refresh
         return done(null, user);
       });
     }
-
+    
     // User exists and no changes need to be made.
-    return done(null, user);
-
+    else {
+      return done(null, user);
+    }
   });
 }));
 
